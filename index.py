@@ -53,6 +53,7 @@ BT = tokens["twitter_BS"]
 AT = tokens["twitter_AT"]
 ATS = tokens["twitter_ATS"]
 LTK= tokens["line_token"]
+myurl=tokens["my_url"]
 ##################################################################
 
 # 「/」にPOSTリクエストが来た場合、index関数が実行される
@@ -129,12 +130,12 @@ def rep(replyToken, text, id):
             messages += [{"type": "text", "text": "B:\n"+result[1]}]
             messages += [{"type": "text", "text": "C:\n"+result[2]}]
         else:
-            messages += [{"type": "image", "originalContentUrl": "https://intern1-term3.tobila-techintern.com/num?num={}".format(
-                result[0]), "previewImageUrl":"https://intern1-term3.tobila-techintern.com/num?num={}".format(result[0])}]
-            messages += [{"type": "image", "originalContentUrl": "https://intern1-term3.tobila-techintern.com/num?num={}".format(
-                result[1]), "previewImageUrl":"https://intern1-term3.tobila-techintern.com/num?num={}".format(result[1])}]
-            messages += [{"type": "image", "originalContentUrl": "https://intern1-term3.tobila-techintern.com/num?num={}".format(
-                result[2]), "previewImageUrl":"https://intern1-term3.tobila-techintern.com/num?num={}".format(result[2])}]
+            messages += [{"type": "image", "originalContentUrl": myurl+"/num?num={}".format(
+                result[0]), "previewImageUrl":myurl+"/num?num={}".format(result[0])}]
+            messages += [{"type": "image", "originalContentUrl": myurl+"/num?num={}".format(
+                result[1]), "previewImageUrl":myurl+"/num?num={}".format(result[1])}]
+            messages += [{"type": "image", "originalContentUrl": myurl+"/num?num={}".format(
+                result[2]), "previewImageUrl":myurl+"/num?num={}".format(result[2])}]
     else:
         messages += [{"type": "sticker",
                       "packageId": "6136", "stickerId": "10551380"}]
