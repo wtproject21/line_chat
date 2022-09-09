@@ -13,7 +13,7 @@ from xml.etree.ElementInclude import include
 from flask import Flask, request, render_template
 # 自分で作成したモジュールのインポート
 from database import Database
-import request
+import requests
 
 from requests_oauthlib import OAuth1Session, OAuth1
 from dateutil import parser
