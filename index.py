@@ -13,7 +13,7 @@ from xml.etree.ElementInclude import include
 from flask import Flask, request, render_template
 # 自分で作成したモジュールのインポート
 from database import Database
-import requests
+import request
 
 from requests_oauthlib import OAuth1Session, OAuth1
 from dateutil import parser
@@ -179,7 +179,7 @@ def rep(replyToken, text, id):
 
 def odai_rep(replyToken, text, id):
     url = 'https://api.line.me/v2/bot/message/reply/'
-    tokens = "Bearer kZyQBlAYqVslwsK8CyZKFvOVWtBcrgEAXeNfW/3FOz+eKYhO43x+qduczBDuXvF53m7is3TKb84cwqQgdHXEZ2AQScCyaZhQztAdIlNYa1DQgq8/4Q9cd1KoE8P6vPSiZWmiNuYN6oFYuHXMfOup6gdB04t89/1O/w1cDnyilFU="
+    tokens = "Bearer {}".format(LTK)
     result = []
     messages = []
     headers = {'Content-Type': "application/json", "Authorization": tokens}
