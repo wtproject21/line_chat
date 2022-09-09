@@ -173,7 +173,6 @@ def rep(replyToken, text, id):
         ]
     }
     values = {"replyToken": replyToken, 'messages': messages}
-    # "imageUrl": "https://example.com/sushi.png",
     r = requests.post(url, data=json.dumps(values), headers=headers)
     logging.debug(result)
 
@@ -186,7 +185,6 @@ def odai_rep(replyToken, text, id):
     headers = {'Content-Type': "application/json", "Authorization": tokens}
     messages += [{"type": "text", "text": text}]
     values = {"replyToken": replyToken, 'messages': messages}
-    # "imageUrl": "https://example.com/sushi.png",
     r = requests.post(url, data=json.dumps(values), headers=headers)
     logging.debug(result)
     connection = pymysql.connect(host='localhost',
@@ -198,26 +196,16 @@ def odai_rep(replyToken, text, id):
     with connection:
         if sql_get(id) == None:
             with connection.cursor() as cursor:
-                # Create a new record
                 sql = "INSERT INTO `myTable` (`id`, `status`,`odai`) VALUES (%s, %s,%s)"
                 cursor.execute(sql, (str(id), 2, text))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
             connection.commit()
         else:
             with connection.cursor() as cursor:
-                # Create a new record
                 sql = "UPDATE `myTable` SET `status`=%s , `odai`=%s WHERE `id`=%s"
                 cursor.execute(sql, (2, text, str(id)))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
             connection.commit()
 
-
-
 SEARCH_TWEETS_URL = 'https://api.twitter.com/2/tweets/search/recent'
-
-
 
 def get_twitter_session():
     return OAuth1Session(CK, CS, AT, ATS)
@@ -247,19 +235,11 @@ def search_twitter_timeline(keyword, since='', until='', max_id=''):
     if req.status_code == 200:
         search_timeline = json.loads(req.text)
         logging.debug(search_timeline)
-        #users={a["id"]:a for a in search_timeline["includes"]["users"]}
         for tweet in search_timeline["data"]:
-            print('-' * 30)
             id = str(tweet['id'])
-            print(id)
-            print(str(parser.parse(tweet['created_at']).astimezone(
-                timezone('Asia/Tokyo'))))
-
             # 次の100件を取得したときにmax_idとイコールのものはすでに取得済みなので捨てる
             if max_id == str(tweet['id']):
-                print('continue')
                 continue
-            # user=users[tweet["author_id"]]
 
             """timeline = {'id': tweet['id']
                 , 'created_at': str(parser.parse(tweet['created_at']).astimezone(timezone('Asia/Tokyo')))
@@ -289,9 +269,6 @@ def search_twitter_timeline(keyword, since='', until='', max_id=''):
                 points += [point]
     else:
         logging.debug("ERROR: %d" % req.status_code)
-
-    print('-' * 30)
-    print(timelines)
     twitter.close()
     arg_sort = np.argsort(points)
     timelines = [timelines[i] for i in arg_sort[::-1]]
@@ -322,7 +299,6 @@ def tweetget(query):
     return timeline
 
 def sql_ins(id, status):
-    # Connect to the database
     connection = pymysql.connect(host='localhost',
                                  user='intern1',
                                  password='hogehoge-123',
@@ -333,24 +309,17 @@ def sql_ins(id, status):
     with connection:
         if sql_get(id) == None:
             with connection.cursor() as cursor:
-                # Create a new record
                 sql = "INSERT INTO `myTable` (`id`, `status`,`odai`) VALUES (%s, %s,null)"
                 cursor.execute(sql, (str(id), str(status)))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
             connection.commit()
         else:
             with connection.cursor() as cursor:
-                # Create a new record
                 sql = "UPDATE `myTable` SET `status`=%s WHERE `id`=%s"
                 cursor.execute(sql, (str(status), str(id)))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
             connection.commit()
 
 
 def sql_get(id):
-    # Connect to the database
     connection = pymysql.connect(host='localhost',
                                  user='intern1',
                                  password='hogehoge-123',
@@ -361,7 +330,6 @@ def sql_get(id):
     with connection:
 
         with connection.cursor() as cursor:
-            # Read a single record
             sql = "SELECT `status`,`odai` FROM `myTable` WHERE `id`=%s"
             cursor.execute(sql, (str(id),))
             result = cursor.fetchone()
@@ -402,7 +370,6 @@ def hyouka_tweet(text):
 
 
 def word2vecs(word, mt, wv):
-    #sum_vec = np.zeros(200)
     vecs = []
     word_count = 0
     node = mt.parseToNode(word)
