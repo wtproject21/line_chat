@@ -216,8 +216,7 @@ def odai_rep(replyToken, text, id):
 
 
 SEARCH_TWEETS_URL = 'https://api.twitter.com/2/tweets/search/recent'
-#RATE_LIMIT_STATUS_URL = "https://api.twitter.com/1.1/application/rate_limit_status.json"
-SEARCH_LIMIT_COUNT = 30
+
 
 
 def get_twitter_session():
@@ -280,26 +279,7 @@ def search_twitter_timeline(keyword, since='', until='', max_id=''):
             }"""
             timeline = {"text": tweet["text"]}
             logging.debug(timeline['text'])
-            # timeline["reply"]=search_tweets(timeline["user_screen_name"],timeline["id"],count=100,range=1)
-
-            # urlを取得
-            """if 'media' in tweet['entities']:
-                medias = tweet['entities']['media']
-                for media in medias:
-                    timeline['url'] = media['url']
-                    break
-            elif 'urls' in tweet['entities']:
-                urls = tweet['entities']['urls']
-                for url in urls:
-                    timeline['url'] = url['url']
-                    break
-            else:
-                timeline['url'] = ''
             
-            if timeline["reply_count"]>=3:
-                timeline["reply"]=["1","2","3"]
-                timelines.append(timeline)
-            """
             if "http" not in timeline["text"] and len(timeline["text"]) <= 25:
                 timelines += [re.sub("@.* | #.*", "",
                                      timeline["text"]).replace("RT ", "")]
@@ -340,27 +320,6 @@ def tweetget(query):
             break
         time.sleep(5)
     return timeline
-
-
-def tweetget_v2(query):
-    api = tweepy.Client(bearer_token=BT, consumer_key=CK, consumer_secret=CS,
-                        access_token=AT, access_token_secret=ATS, wait_on_rate_limit=True)
-    timeline = []
-    flg = False
-    for i in range(3):
-        try:
-            for status in api.search_recent_tweets(query, max_results=100):
-                logging.debug(status)
-                timeline += [status]
-            flg = True
-        except:
-            logging.debug(traceback.format_exc())
-            timeline = []
-        if flg or i == 2:
-            break
-        time.sleep(5)
-    return timeline
-
 
 def sql_ins(id, status):
     # Connect to the database
