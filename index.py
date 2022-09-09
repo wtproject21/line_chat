@@ -126,9 +126,9 @@ def rep(replyToken, text, id):
 
     if len(result) >= 3:
         if sql_get(id)["status"] != "2":
-            messages += [{"type": "text", "text": "A:\n"+result[0]}]
-            messages += [{"type": "text", "text": "B:\n"+result[1]}]
-            messages += [{"type": "text", "text": "C:\n"+result[2]}]
+            messages += [{"type": "text", "text": "🄰\n"+result[0]}]
+            messages += [{"type": "text", "text": "🄱\n"+result[1]}]
+            messages += [{"type": "text", "text": "🄲\n"+result[2]}]
         else:
             messages += [{"type": "image", "originalContentUrl": myurl+"/num?num={}".format(
                 result[0]), "previewImageUrl":myurl+"/num?num={}".format(result[0])}]
